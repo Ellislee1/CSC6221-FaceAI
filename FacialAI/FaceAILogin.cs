@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FacialAI.Azure;
+using Microsoft.Data.SqlClient;
+using System;
 using System.Data.OleDb;
 using System.Windows.Forms;
 
@@ -6,11 +8,13 @@ namespace FacialAI
 {
     public partial class FaceAILogin : Form
     {
+        DataBase dbs;
         frmHome parentHome;
         public FaceAILogin(frmHome home)
         {
             parentHome = home;
             InitializeComponent();
+            dbs = new DataBase();
 
         }
 
@@ -20,18 +24,16 @@ namespace FacialAI
 
         private void btnLoginClick(object sender, EventArgs e)
         {
-            con.Open();
-            string login = "SELECT * FROM tbl_users WHERE username= '" + txtusername.Text + "' and password= '" + txtpassword.Text + "'";
-            cmd = new OleDbCommand(login, con);
-            OleDbDataReader dr = cmd.ExecuteReader();
+            string login = "SELECT username FROM tblUsers WHERE username= '" + txtusername.Text + "' and password= '" + txtpassword.Text + "'";
+            SqlDataReader reader = dbs.read(login);
 
-            if (dr.Read() == true)
+            if (reader != null)
             {
                 MessageBox.Show("Username and Password", "Confirm!", MessageBoxButtons.OK);
             }
             else
             {
-                MessageBox.Show("Invalid Username and Password1", "Please Try Again", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Invalid Username and Password!", "Please Try Again", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtpassword.Text = "";
                 txtpassword.Focus();
             }

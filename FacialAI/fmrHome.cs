@@ -19,6 +19,8 @@ namespace FacialAI
 
         Bitmap capturedImage;
         readonly FaceModels model;
+
+        DataBase dbs;
         public frmHome()
         {
             InitializeComponent();
@@ -27,6 +29,7 @@ namespace FacialAI
 
             imageControl.SizeMode = PictureBoxSizeMode.StretchImage;
             pct_snapshot.SizeMode = PictureBoxSizeMode.StretchImage;
+            dbs = new DataBase();
 
         }
 
@@ -54,10 +57,8 @@ namespace FacialAI
             else if (txtPassword.Text == txtComPassword.Text)
             {
                 con.Open();
-                string register = "INSERT INTO tbl_users VALUES ('" + txtUsername.Text + "','" + txtPassword.Text + "')";
-                cmd = new OleDbCommand(register, con);
-                cmd.ExecuteNonQuery();
-                con.Close();
+                string query = "INSERT INTO tblUsers (username, password) VALUES ('" + txtUsername.Text + "','" + txtPassword.Text + "')";
+                bool success = dbs.Insert(query);
                 txtUsername.Text = "";
                 txtPassword.Text = "";
                 txtComPassword.Text = "";
