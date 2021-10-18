@@ -18,12 +18,7 @@ namespace FacialAI
         OleDbCommand cmd = new OleDbCommand();
         readonly OleDbDataAdapter da = new OleDbDataAdapter();
 
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
+        private void btnLoginClick(object sender, EventArgs e)
         {
             con.Open();
             string login = "SELECT * FROM tbl_users WHERE username= '" + txtusername.Text + "' and password= '" + txtpassword.Text + "'";
@@ -42,7 +37,7 @@ namespace FacialAI
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void btnClearClick(object sender, EventArgs e)
         {
             txtusername.Text = "";
             txtpassword.Text = "";
@@ -63,7 +58,7 @@ namespace FacialAI
             }
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void btnCreateAccountClick(object sender, EventArgs e)
         {
             new frmHome().Show();
             Hide();
