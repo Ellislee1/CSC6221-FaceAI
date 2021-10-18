@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace FacialAI
 {
-    public partial class frm_home : Form
+    public partial class frmHome : Form
     {
 
         FilterInfoCollection filterInfoCollection;
@@ -19,7 +19,7 @@ namespace FacialAI
 
         Bitmap capturedImage;
         readonly FaceModels model;
-        public frm_home()
+        public frmHome()
         {
             InitializeComponent();
 
@@ -45,7 +45,7 @@ namespace FacialAI
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnNewAccountClick(object sender, EventArgs e)
         {
             if (txtUsername.Text == "" && txtPassword.Text == "" && txtComPassword.Text == "")
             {
@@ -74,7 +74,7 @@ namespace FacialAI
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void btnClearClick(object sender, EventArgs e)
         {
             txtUsername.Text = "";
             txtPassword.Text = "";
@@ -82,9 +82,9 @@ namespace FacialAI
             txtUsername.Focus();
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void btnLoginClick(object sender, EventArgs e)
         {
-            new FaceAILogin().Show();
+            new FaceAILogin(this).Show();
             Hide();
         }
 
@@ -94,7 +94,7 @@ namespace FacialAI
             pct_snapshot.Image = capturedImage;
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void frmHomeLoad(object sender, EventArgs e)
         {
             filterInfoCollection = new FilterInfoCollection(FilterCategory.VideoInputDevice);
             foreach (FilterInfo filter in filterInfoCollection)

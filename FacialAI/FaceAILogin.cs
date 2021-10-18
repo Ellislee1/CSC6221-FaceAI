@@ -6,9 +6,12 @@ namespace FacialAI
 {
     public partial class FaceAILogin : Form
     {
-        public FaceAILogin()
+        frmHome parentHome;
+        public FaceAILogin(frmHome home)
         {
+            parentHome = home;
             InitializeComponent();
+
         }
 
         readonly OleDbConnection con = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=DatabaseFaceAI.mdb");
@@ -62,8 +65,13 @@ namespace FacialAI
 
         private void button3_Click(object sender, EventArgs e)
         {
-            new frm_home().Show();
+            new frmHome().Show();
             Hide();
+        }
+
+        private void FaceAILogin_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            parentHome.Show();
         }
     }
 }
