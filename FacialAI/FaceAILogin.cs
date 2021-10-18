@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Data.OleDb;
 using System.Windows.Forms;
 
@@ -11,9 +12,7 @@ namespace FacialAI
             InitializeComponent();
         }
 
-        readonly OleDbConnection con = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=DatabaseFaceAI.mdb");
-        OleDbCommand cmd = new OleDbCommand();
-        readonly OleDbDataAdapter da = new OleDbDataAdapter();
+
 
         private void label5_Click(object sender, EventArgs e)
         {
@@ -22,14 +21,19 @@ namespace FacialAI
 
         private void button1_Click(object sender, EventArgs e)
         {
-            con.Open();
-            string login = "SELECT * FROM tbl_users WHERE username= '" + txtusername.Text + "' and password= '" + txtpassword.Text + "'";
-            cmd = new OleDbCommand(login, con);
-            OleDbDataReader dr = cmd.ExecuteReader();
+            OleDbConnection con = new OleDbConnection(@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\chgar\source\repos\CSC6221-FaceAI\FacialAI\bin\Debug\DatabaseFaceAI.accdb");
+            string query = "SELECT * FROM tbl_users WHERE username= '" + txtusername.Text.Trim() + "' and password= '" + txtpassword.Text.Trim() + "'";
+            OleDbDataAdapter dataA = new OleDbDataAdapter(query, con);
+            DataTable dtbl = new DataTable();
 
-            if (dr.Read() == true)
+            dataA.Fill(dtbl);
+            if (dtbl.Rows.Count == 1)
             {
-                MessageBox.Show("Username and Password", "Confirm!", MessageBoxButtons.OK);
+               UserProfile profile = new UserProfile();
+               this.Hide();
+               profile.Show();
+
+
             }
             else
             {
@@ -65,5 +69,17 @@ namespace FacialAI
             new frm_home().Show();
             Hide();
         }
+
+        private void FaceAILogin_Load(object sender, EventArgs e)
+        {
+          
+        }
+
+        private void FaceAILogin_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            new frm_home().Show();
+            this.Hide();
+        }
     }
+
 }

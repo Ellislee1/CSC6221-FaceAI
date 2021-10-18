@@ -165,6 +165,8 @@ namespace FacialAI
             this.MaximizeBox = false;
             this.Name = "FaceAILogin";
             this.Text = "FaceAILogin";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FaceAILogin_FormClosing);
+            this.Load += new System.EventHandler(this.FaceAILogin_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

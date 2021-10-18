@@ -13,7 +13,7 @@ namespace FacialAI
 
         FilterInfoCollection filterInfoCollection;
         VideoCaptureDevice captureDevice;
-        readonly OleDbConnection con = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=DatabaseFaceAI.mdb");
+        readonly OleDbConnection con = new OleDbConnection(@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\chgar\source\repos\CSC6221-FaceAI\FacialAI\bin\Debug\DatabaseFaceAI.accdb");
         OleDbCommand cmd = new OleDbCommand();
         readonly OleDbDataAdapter da = new OleDbDataAdapter();
 
@@ -37,6 +37,7 @@ namespace FacialAI
             {
                 txtPassword.PasswordChar = '\0';
                 txtComPassword.PasswordChar = '\0';
+
             }
             else
             {
@@ -84,8 +85,15 @@ namespace FacialAI
 
         private void button3_Click(object sender, EventArgs e)
         {
-            new FaceAILogin().Show();
-            Hide();
+
+            
+            FaceAILogin form2 = new FaceAILogin();
+
+            form2.ShowDialog();
+            this.Hide();
+           
+            
+
         }
 
         private void btnTakePicture_Click(object sender, EventArgs e)
@@ -125,6 +133,7 @@ namespace FacialAI
             if (captureDevice.IsRunning == true)
             {
                 captureDevice.Stop();
+                this.Close();
             }
         }
 
@@ -145,5 +154,16 @@ namespace FacialAI
             bool to_save = chkSaveImage.Checked;
             bool val = await model.FindSimilar(capturedImage, to_save);
         }
+
+        private void txtComPassword_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtPassword_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+ 
     }
 }
