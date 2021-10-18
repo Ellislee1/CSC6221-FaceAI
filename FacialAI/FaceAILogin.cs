@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FacialAI.Azure;
+using Microsoft.Data.SqlClient;
+using System;
 using System.Data.OleDb;
 using System.Windows.Forms;
 
@@ -6,40 +8,38 @@ namespace FacialAI
 {
     public partial class FaceAILogin : Form
     {
-        public FaceAILogin()
+        DataBase dbs;
+        frmHome parentHome;
+        public FaceAILogin(frmHome home)
         {
+            parentHome = home;
             InitializeComponent();
+            dbs = new DataBase();
+
         }
 
         readonly OleDbConnection con = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=DatabaseFaceAI.mdb");
         OleDbCommand cmd = new OleDbCommand();
         readonly OleDbDataAdapter da = new OleDbDataAdapter();
 
-        private void label5_Click(object sender, EventArgs e)
+        private void btnLoginClick(object sender, EventArgs e)
         {
+            string login = "SELECT username FROM tblUsers WHERE username= '" + txtusername.Text + "' and password= '" + txtpassword.Text + "'";
+            SqlDataReader reader = dbs.read(login);
 
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            con.Open();
-            string login = "SELECT * FROM tbl_users WHERE username= '" + txtusername.Text + "' and password= '" + txtpassword.Text + "'";
-            cmd = new OleDbCommand(login, con);
-            OleDbDataReader dr = cmd.ExecuteReader();
-
-            if (dr.Read() == true)
+            if (reader != null)
             {
                 MessageBox.Show("Username and Password", "Confirm!", MessageBoxButtons.OK);
             }
             else
             {
-                MessageBox.Show("Invalid Username and Password1", "Please Try Again", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Invalid Username and Password!", "Please Try Again", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtpassword.Text = "";
                 txtpassword.Focus();
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void btnClearClick(object sender, EventArgs e)
         {
             txtusername.Text = "";
             txtpassword.Text = "";
@@ -60,10 +60,15 @@ namespace FacialAI
             }
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void btnCreateAccountClick(object sender, EventArgs e)
         {
-            new frm_home().Show();
+            new frmHome().Show();
             Hide();
+        }
+
+        private void FaceAILogin_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            parentHome.Show();
         }
     }
 }
