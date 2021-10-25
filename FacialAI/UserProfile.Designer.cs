@@ -45,7 +45,6 @@ namespace FacialAI
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(320, 22);
             this.textBox1.TabIndex = 0;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // label1
             // 
@@ -64,7 +63,6 @@ namespace FacialAI
             this.label2.Size = new System.Drawing.Size(49, 17);
             this.label2.TabIndex = 3;
             this.label2.Text = "Name:";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // textBox2
             // 
@@ -72,7 +70,6 @@ namespace FacialAI
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(320, 22);
             this.textBox2.TabIndex = 2;
-            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // label3
             // 
@@ -109,7 +106,7 @@ namespace FacialAI
             this.button1.TabIndex = 17;
             this.button1.Text = "GET";
             this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // UserProfile
             // 
@@ -127,7 +124,6 @@ namespace FacialAI
             this.Name = "UserProfile";
             this.Text = "User Profile";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UserProfile_FormClosing);
-            this.Load += new System.EventHandler(this.UserProfile_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

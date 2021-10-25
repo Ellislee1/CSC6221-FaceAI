@@ -13,14 +13,13 @@ namespace FacialAI
 
         FilterInfoCollection filterInfoCollection;
         VideoCaptureDevice captureDevice;
-        readonly OleDbConnection con = new OleDbConnection(@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\chgar\source\repos\CSC6221-FaceAI\FacialAI\bin\Debug\DatabaseFaceAI.accdb");
-        OleDbCommand cmd = new OleDbCommand();
-        readonly OleDbDataAdapter da = new OleDbDataAdapter();
 
         Bitmap capturedImage;
         readonly FaceModels model;
 
         DataBase dbs;
+        private String username;
+
         public frmHome()
         {
             InitializeComponent();
@@ -30,6 +29,7 @@ namespace FacialAI
             imageControl.SizeMode = PictureBoxSizeMode.StretchImage;
             pct_snapshot.SizeMode = PictureBoxSizeMode.StretchImage;
             dbs = new DataBase();
+            username = null;
 
         }
 
@@ -57,7 +57,6 @@ namespace FacialAI
             }
             else if (txtPassword.Text == txtComPassword.Text)
             {
-                con.Open();
                 string query = "INSERT INTO tblUsers (username, password) VALUES ('" + txtUsername.Text + "','" + txtPassword.Text + "')";
                 bool success = dbs.Insert(query);
                 txtUsername.Text = "";
@@ -127,7 +126,6 @@ namespace FacialAI
             if (captureDevice.IsRunning == true)
             {
                 captureDevice.Stop();
-                this.Close();
             }
         }
 
@@ -149,14 +147,9 @@ namespace FacialAI
             bool val = await model.FindSimilar(capturedImage, to_save);
         }
 
-        private void txtComPassword_TextChanged(object sender, EventArgs e)
+        public void SetUsername(string username)
         {
-
-        }
-
-        private void txtPassword_TextChanged(object sender, EventArgs e)
-        {
-
+            this.username = username;
         }
  
     }

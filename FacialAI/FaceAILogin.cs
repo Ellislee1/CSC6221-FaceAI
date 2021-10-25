@@ -4,6 +4,7 @@ using System.Data;
 using FacialAI.Azure;
 using Microsoft.Data.SqlClient;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace FacialAI
 {
@@ -23,14 +24,15 @@ namespace FacialAI
 
         private void btnLoginClick(object sender, EventArgs e)
         {
-            string login = "SELECT username FROM tblUsers WHERE username= '" + txtusername.Text + "' and password= '" + txtpassword.Text + "'";
-            SqlDataReader reader = dbs.read(login);
+            string login = "SELECT username FROM tblUsers WHERE username= '" + txtusername.Text.Trim() + "' and password= '" + txtpassword.Text + "'";
+            List<Object> reader = dbs.read(login);
 
-            if (reader != null)
+            if (reader.Count > 0)
             {
-               UserProfile profile = new UserProfile();
-               this.Hide();
-               profile.Show();
+                UserProfile profile = new UserProfile(this, txtusername.Text.Trim());
+                this.Hide();
+                parentHome.SetUsername(txtusername.Text.Trim());
+                profile.Show();
 
 
             }
@@ -65,8 +67,7 @@ namespace FacialAI
 
         private void btnCreateAccountClick(object sender, EventArgs e)
         {
-            new frmHome().Show();
-            Hide();
+            this.Close();
         }
 
         private void FaceAILogin_FormClosing(object sender, FormClosingEventArgs e)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -54,8 +55,9 @@ namespace FacialAI.Azure
             return success;
         }
 
-        public SqlDataReader read(string query)
+        public List<Object> read(string query)
         {
+            List<Object> users = new List<object>();
             SqlDataReader reader = null;
             using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
             {
@@ -66,6 +68,11 @@ namespace FacialAI.Azure
                     {
                         connection.Open();
                         reader = command.ExecuteReader();
+
+                        while (reader.Read())
+                        {
+                            users = ReadSingleRow((IDataReader)reader, users);
+                        }
 
                     }
                     catch (Exception e)
@@ -86,8 +93,15 @@ namespace FacialAI.Azure
                 }
                 
             }
-            return reader;
+            return users;
 
+        }
+
+        private static List<Object> ReadSingleRow(IDataRecord record, List<Object> users)
+        {
+
+            users.Add(record[0]);
+            return users;
         }
     }
 }
